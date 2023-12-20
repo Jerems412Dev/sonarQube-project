@@ -1,14 +1,12 @@
 package com.exam.exam.service;
 import com.exam.exam.entity.Paiement;
 import com.exam.exam.repository.PaiementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class PaiementService {
-    @Autowired
     private PaiementRepository repository;
 
     public PaiementService(PaiementRepository repository) {

@@ -6,12 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/declarants")
 public class DeclarantController {
     private final DeclarantService declarantService;
+    private static final String DECLARANT = "declarants";
+    private static final String DECLARANT_ADD = "Declarant/add";
+    private static final String DECLARANT_LIST = "Declarant/list";
 
     @Autowired
     public DeclarantController(DeclarantService declarantService) {
@@ -21,9 +22,8 @@ public class DeclarantController {
     @PostMapping
     public ModelAndView createDeclarant(@ModelAttribute Declarant declarant,Model model) {
         declarantService.create(declarant);
-        model.addAttribute("declarants", declarantService.getAll());
-        ModelAndView modelAndView = new ModelAndView("Declarant/list");
-        return modelAndView;
+        model.addAttribute(DECLARANT, declarantService.getAll());
+        return new ModelAndView(DECLARANT_LIST);
     }
 
     @PutMapping("/{id}")
@@ -34,22 +34,21 @@ public class DeclarantController {
     @GetMapping("/{id}")
     public ModelAndView deleteDeclarant(@PathVariable Long id,Model model) {
         declarantService.delete(id);
-        ModelAndView modelAndView = new ModelAndView("Declarant/list");
-        model.addAttribute("declarants", declarantService.getAll());
+        ModelAndView modelAndView = new ModelAndView(DECLARANT_LIST);
+        model.addAttribute(DECLARANT, declarantService.getAll());
         return modelAndView;
     }
 
     @GetMapping("/list")
     public ModelAndView list(Model model) {
-        ModelAndView modelAndView = new ModelAndView("Declarant/list");
-        model.addAttribute("declarants", declarantService.getAll());
+        ModelAndView modelAndView = new ModelAndView(DECLARANT_LIST);
+        model.addAttribute(DECLARANT, declarantService.getAll());
         return modelAndView;
     }
 
     @GetMapping("/add")
     public ModelAndView add(Model model) {
-        model.addAttribute("declarant", new Declarant());
-        ModelAndView modelAndView = new ModelAndView("Declarant/add");
-        return modelAndView;
+        model.addAttribute(DECLARANT, new Declarant());
+        return new ModelAndView(DECLARANT_ADD);
     }
 }

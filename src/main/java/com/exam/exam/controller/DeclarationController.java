@@ -1,5 +1,4 @@
 package com.exam.exam.controller;
-import com.exam.exam.entity.Declarant;
 import com.exam.exam.entity.Declaration;
 import com.exam.exam.service.DeclarantService;
 import com.exam.exam.service.DeclarationService;
@@ -8,13 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/declarations")
 public class DeclarationController {
     private final DeclarationService declarationService;
     private final DeclarantService declarantService;
+    private static final String DECLARATIONS = "declarations";
+    private static final String DECLARATION_LIST = "Declaration/list";
 
     @Autowired
     public DeclarationController(DeclarationService declarationService, DeclarantService declarantService) {
@@ -25,9 +24,8 @@ public class DeclarationController {
     @PostMapping
     public ModelAndView createDeclaration(@ModelAttribute Declaration declaration, Model model) {
         declarationService.create(declaration);
-        model.addAttribute("declarations", declarationService.getAll());
-        ModelAndView modelAndView = new ModelAndView("Declaration/list");
-        return modelAndView;
+        model.addAttribute(DECLARATIONS, declarationService.getAll());
+        return new ModelAndView(DECLARATION_LIST);
     }
 
     @PutMapping("/{id}")
@@ -38,15 +36,15 @@ public class DeclarationController {
     @GetMapping("/{id}")
     public ModelAndView deleteDeclaration(@PathVariable Long id,Model model) {
         declarationService.delete(id);
-        ModelAndView modelAndView = new ModelAndView("Declaration/list");
-        model.addAttribute("declarations", declarationService.getAll());
+        ModelAndView modelAndView = new ModelAndView(DECLARATION_LIST);
+        model.addAttribute(DECLARATIONS, declarationService.getAll());
         return modelAndView;
     }
 
     @GetMapping("/list")
     public ModelAndView list(Model model) {
-        ModelAndView modelAndView = new ModelAndView("Declaration/list");
-        model.addAttribute("declarations", declarationService.getAll());
+        ModelAndView modelAndView = new ModelAndView(DECLARATION_LIST);
+        model.addAttribute(DECLARATIONS, declarationService.getAll());
         return modelAndView;
     }
 
@@ -54,7 +52,6 @@ public class DeclarationController {
     public ModelAndView add(Model model) {
         model.addAttribute("declarants", declarantService.getAll());
         model.addAttribute("declaration", new Declaration());
-        ModelAndView modelAndView = new ModelAndView("Declaration/add");
-        return modelAndView;
+        return new ModelAndView("Declaration/add");
     }
 }

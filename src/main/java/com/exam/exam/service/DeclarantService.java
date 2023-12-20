@@ -1,14 +1,12 @@
 package com.exam.exam.service;
 import com.exam.exam.entity.Declarant;
 import com.exam.exam.repository.DeclarantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DeclarantService {
-    @Autowired
     private DeclarantRepository repository;
 
     public DeclarantService(DeclarantRepository repository) {
